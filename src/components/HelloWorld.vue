@@ -1,13 +1,65 @@
 <template>
-  <v-container>
+  <v-parallax
+    dark
+    class="pa-0"
+    src="https://scontent.fgum2-1.fna.fbcdn.net/v/t1.0-9/53761092_10158153336398776_936169769491496960_o.jpg?_nc_cat=111&_nc_oc=AQkAg0VyqJecij6pQCuY0CAU5aPdyek1LjalGqsqMnGYOKi2MAvLlMNGjxLDnFoVsaU&_nc_ht=scontent.fgum2-1.fna&oh=0e9a71ad13ebdb36aa14227fe332d271&oe=5DA537A8"
+  >
+    <v-container grid-list-xs fluid>
+      <v-layout
+        align-center
+        column
+        justify-center
+      >
+        <v-flex xs12 text-center>
+          <h1 class="display-3 mb-4 text-capitalize that-font" id="that-header">EXPLORE OUR WATERS</h1>
+        <v-spacer class="py-4"></v-spacer>
+        </v-flex>
+        <v-flex xs12 md6 px-auto>
+          <v-card max-width="800" 
+            :width="cardWidth" tile>
+            <v-card-actions>
+              <v-layout column text-center py-3 px-5>
+                <v-flex xs10 px-5>
+                  <v-text-field
+                    v-model="content"
+                    name="query"
+                    label="Search collections"
+                    id="id"
+                    @keydown.enter="redirect"
+                  ></v-text-field>
+                </v-flex>
+                <v-flex xs5 pa-5>
+                <v-btn color="rgb(95, 225, 255)" dark
+                  :href="link"
+                >
+                Search
+                </v-btn>
+                </v-flex>
+              </v-layout>
+            </v-card-actions>
+          </v-card>
+        </v-flex>
+        <!-- <v-flex xs2>
+          <v-select
+            dark
+            filled
+            :items="collections"
+            v-model="coll"
+            label="collection"
+          ></v-select>
+        </v-flex> -->
+      </v-layout>
+    </v-container>
+  </v-parallax>
+  <!-- <v-container fluid>
     <v-layout
       text-center
       wrap
     >
       <v-flex xs12>
         <v-img
-          :src="require('../assets/logo.svg')"
-          class="my-3"
+          src="http://www.coastalseekers.com/wp-content/uploads/2017/05/feature-5.jpg"
+          
           contain
           height="200"
         ></v-img>
@@ -81,62 +133,47 @@
         </v-layout>
       </v-flex>
     </v-layout>
-  </v-container>
+  </v-container> -->
 </template>
 
 <script>
 export default {
   data: () => ({
-    ecosystem: [
-      {
-        text: 'vuetify-loader',
-        href: 'https://github.com/vuetifyjs/vuetify-loader',
-      },
-      {
-        text: 'github',
-        href: 'https://github.com/vuetifyjs/vuetify',
-      },
-      {
-        text: 'awesome-vuetify',
-        href: 'https://github.com/vuetifyjs/awesome-vuetify',
-      },
-    ],
-    importantLinks: [
-      {
-        text: 'Documentation',
-        href: 'https://vuetifyjs.com',
-      },
-      {
-        text: 'Chat',
-        href: 'https://community.vuetifyjs.com',
-      },
-      {
-        text: 'Made with Vuetify',
-        href: 'https://madewithvuejs.com/vuetify',
-      },
-      {
-        text: 'Twitter',
-        href: 'https://twitter.com/vuetifyjs',
-      },
-      {
-        text: 'Articles',
-        href: 'https://medium.com/vuetify',
-      },
-    ],
-    whatsNext: [
-      {
-        text: 'Explore components',
-        href: 'https://vuetifyjs.com/components/api-explorer',
-      },
-      {
-        text: 'Select a layout',
-        href: 'https://vuetifyjs.com/layout/pre-defined',
-      },
-      {
-        text: 'Frequently Asked Questions',
-        href: 'https://vuetifyjs.com/getting-started/frequently-asked-questions',
-      },
-    ],
+    content: "",
+    collections: ['fish', 'coral', 'diatoms'],
+    coll: 'fish'
   }),
+  computed: {
+    cardWidth() {
+      return this.$vuetify.breakpoint.name=='xs' ? '300' : '800'
+    },
+    link() {
+      return 'apps/viewer/#/?q=' + (this.content? this.content : '*')
+    }
+  },
+  methods: {
+    redirect() {
+      window.location.href = this.link
+    }
+  }
 };
 </script>
+
+<style>
+@import url('https://fonts.googleapis.com/css?family=Lato:900&display=swap');
+
+.blur {
+  -webkit-filter: blur(5px);
+  -moz-filter: blur(5px);
+  -o-filter: blur(5px);
+  -ms-filter: blur(5px);
+  filter: blur(5px);
+}
+#that-header {
+  font-family: 'Lato', sans-serif !important;
+  letter-spacing: 4.2px !important;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  font-weight: 400 !important;
+}
+</style>
+
