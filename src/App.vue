@@ -19,7 +19,7 @@
         <v-layout row wrap pt-2>
           <v-flex xs12>
             <span class="caption grey--text">
-              photo credit: Paul Carlson, 2019
+              Photo Credit: Paul Carlson, 2019
             </span>
           </v-flex>
         </v-layout>
