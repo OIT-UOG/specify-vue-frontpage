@@ -148,7 +148,11 @@ export default {
       return this.$vuetify.breakpoint.name=='xs' ? '300' : '800'
     },
     link() {
-      return 'apps/viewer/#/?q=' + (this.content? this.content : '*')
+      if (this.content.trim()) {
+        return 'apps/viewer/#/?q=' + this.content.trim()
+      } else {
+        return 'apps/viewer/#/'
+      }
     }
   },
   methods: {
