@@ -1,8 +1,8 @@
 <template>
   <v-parallax
     dark
-    class="pa-0"
-    src="https://scontent.fgum2-1.fna.fbcdn.net/v/t1.0-9/53761092_10158153336398776_936169769491496960_o.jpg?_nc_cat=111&_nc_oc=AQkAg0VyqJecij6pQCuY0CAU5aPdyek1LjalGqsqMnGYOKi2MAvLlMNGjxLDnFoVsaU&_nc_ht=scontent.fgum2-1.fna&oh=0e9a71ad13ebdb36aa14227fe332d271&oe=5DA537A8"
+    class="pa-0 undo-image-transform"
+    src="../assets/fishb.jpg"
   >
     <v-container grid-list-xs fluid>
       <v-layout
@@ -178,6 +178,10 @@ export default {
   letter-spacing: 4.2px !important;
   text-shadow: 0 2px 10px rgba(0,0,0,0.5);
   font-weight: 400 !important;
+}
+
+.undo-image-transform .v-parallax__image {
+  transform: translate(-50%,0) !important;
 }
 </style>
 
