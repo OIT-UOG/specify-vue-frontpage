@@ -3,41 +3,180 @@
     <v-app-bar app>
       <v-toolbar-title class="headline text-uppercase">
         <span>GEC</span>
-        <span class="font-weight-light">BIOREPOSITORY</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
+      <v-toolbar-items class="hidden-sm-and-down">
+        <v-btn
+          v-for="link in menu"
+          :key="link[1]"
+          :to="link[0]+link[1]"
+          text
+        ><span class="font-weight-light">{{link[0]}}</span><span class="font-weight-light">{{link[1]}}</span> </v-btn>
+      </v-toolbar-items>
+      <v-menu class="hidden-md-and-up">
+        <template v-slot:activator="{on}">
+          <v-app-bar-nav-icon v-on="on" class="hidden-md-and-up"></v-app-bar-nav-icon>
+        </template>
+        <v-list>
+            <v-list-item 
+              v-for="link in menu"
+              :key="link[1]"
+              @click="link[0]+link[1]"
+            >
+              <v-list-item-title class="font-weight-light">
+                {{(link[0] + link[1]).toUpperCase()}}
+              </v-list-item-title>
+            </v-list-item>
+          </v-list>
+      </v-menu>
     </v-app-bar>
 
     <v-content>
       <HelloWorld/>
       <v-container grid-list-xs text-center >
+        <v-spacer class="py-6"></v-spacer>
+        <v-layout justify-center align-center>
+          <h1 class="display-2 font-weight-light">Guam Ecosystem Collaboratorium</h1>
+        </v-layout>
+        <v-spacer class="py-2"></v-spacer>
+        <v-layout align-center>
+          <p class="pa-2 grey--text" >The Guam EPSCoR-Guam Ecosystem Collaboratorium (GEC) Biorepository and Reference Library (RefLib) 
+            serve as world-class physical and cyber warehouses of Micronesian marine biodiversity and research papers enhancing
+            local research capacity and facilitating collaborative research through global access to 
+            geographically-linked specimen records and images and research references published and used by Guam EPSCoR researchers.</p>
+        </v-layout>
         <v-layout row wrap align-center justify-center>
-          <v-flex xs1>
-            <v-divider class="mt-6" style="padding-top: 1px; background-color: rgb(95, 225, 255)"></v-divider>
+          <v-flex xs5>
+            <v-divider class="ma-10" style="padding-top: 1px; background-color: rgb(88, 155, 237)"></v-divider>
           </v-flex>
         </v-layout>
-        <v-layout row wrap pt-2>
-          <v-flex xs12>
-            <span class="caption grey--text">
-              Photo Credit: Paul Carlson, 2019
-            </span>
-          </v-flex>
+
+      </v-container>
+      <v-container
+        grid-list-xs
+        
+      >
+        <v-layout text-center>
+            <v-flex
+              v-for="(c,i) in cards"
+              :key="i"
+              :class="c.size"
+              pa-2
+            >
+              <v-hover v-slot:default="{ hover }">
+                <v-card 
+                  outlined
+                  :elevation="hover ? 6:0"
+                >
+                  <v-card-title class="justify-center display-1"
+                    style="margin-top: 12px; padding-bottom:0;"
+                  >
+                    <b>{{c.title[0]}}</b>{{c.title[1]}}
+                  </v-card-title>
+
+                  <v-container>
+                    <v-row justify="space-around">
+                      <v-col cols="auto"
+                        v-for="({title, img}, i) in c.imgs"
+                        :key="i"
+                      >
+                        <v-card flat>
+                          <v-img
+                            height="200"
+                            width="200"
+                            :src="imgPath(img)"
+                          >
+                          </v-img>
+                          <v-card-title class="justify-center">
+                            {{title}}
+                          </v-card-title>
+                        </v-card>
+                        
+
+                      </v-col>
+                    </v-row>
+                  </v-container>
+
+                </v-card>
+              </v-hover>
+            </v-flex>
         </v-layout>
       </v-container>
+
+      <v-container>
+        <v-spacer class="my-12"></v-spacer>
+      </v-container>
+
+      <Contact></Contact>
+      
+      <!-- <div>Icons made by <a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+      <div>Icons made by <a href="https://www.flaticon.com/free-icon/file_709591?term=file%20search&page=2&position=27" title="Kiranshastry">Kiranshastry</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></div> -->
     </v-content>
   </v-app>
 </template>
 
 <script>
 import HelloWorld from './components/HelloWorld';
+import Contact from './components/Contact';
 
 export default {
   name: 'App',
   components: {
     HelloWorld,
+    Contact,
   },
   data: () => ({
-    //
+    menu: [
+      ['GEC','Biorepository'],
+      ['GEC', 'RefLib'],
+      ['','About'],
+      ['','Contact']
+    ],
+    cards: [
+      {
+        title: ['GEC', 'Biorepository'],
+        desc: null,
+        size: 'xs9',
+        imgs: [
+          {
+            title: 'Fishes',
+            img: 'fish.png'
+          },
+          {
+            title: 'Corals',
+            img: 'coral.png'
+          },
+          {
+            title: 'Diatoms',
+            img: 'diatom.png'
+          }
+        ]
+      },
+      {
+        title: ['GEC', 'RefLib'],
+        desc: null,
+        size: 'xs3',
+        imgs: [
+          {
+            title: 'References',
+            img: 'search.png'
+          }
+        ]
+      }
+    ]
   }),
+  methods: {
+    imgPath(img_name) {
+      let images = require.context('./assets/', false, /\.png$/);
+      return images('./' + img_name);
+    },
+  }
 };
 </script>
+
+<style>
+.tertiary {
+  background-color: rgb(55, 140, 244);
+  color: white;
+}
+</style>
