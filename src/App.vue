@@ -42,10 +42,12 @@
         </v-layout>
         <v-spacer class="py-2"></v-spacer>
         <v-layout align-center>
-          <p class="pa-2 grey--text" >The Guam EPSCoR-Guam Ecosystem Collaboratorium (GEC) Biorepository and Reference Library (RefLib) 
+          <p class="pa-6 pb-2 grey--text" >The Guam EPSCoR-Guam Ecosystem Collaboratorium (GEC) Biorepository and Reference Library (RefLib) 
             serve as world-class physical and cyber warehouses of Micronesian marine biodiversity and research papers enhancing
             local research capacity and facilitating collaborative research through global access to 
-            geographically-linked specimen records and images and research references published and used by Guam EPSCoR researchers.</p>
+            geographically-linked specimen records and images and research references published and used by Guam EPSCoR researchers.
+            Explore our collections below.
+          </p>
         </v-layout>
         <v-layout row wrap align-center justify-center>
           <v-flex xs5>
@@ -56,7 +58,7 @@
       </v-container>
       <v-container
         grid-list-xs
-        
+        class="pb-6"
       >
         <v-layout text-center>
             <v-flex
@@ -109,6 +111,51 @@
         <v-spacer class="my-12"></v-spacer>
       </v-container>
 
+      <v-container grid-list-xs fluid class="tertiary">
+        <v-spacer class="my-12"></v-spacer>
+        <v-layout justify-center align-center mb-12>
+            <h1 class="display-2 font-weight-light" dark>About us</h1>
+        </v-layout>
+        <v-layout px-12 align-center text-center>
+          <p class="px-12 pb-6" >
+            The Guam Ecosystem Collaboratorium is part of a 5-year plan focused upon studying the effects of climate change on coral reefs, specifically on a genetic basis and 
+            is funded by the National Science Fountation's Established Program to Stimulate Competitive Research (EPSCoR) grant. 
+            It is the hope that bringing these resources to a wider audience for collaboration and awareness that we might spark further research
+            into these beautiful waters that we in Guam call home and that we as a global community deeply rely on.
+          </p>
+        </v-layout>
+        <v-layout justify-center align-center xs12>
+          <v-flex
+            v-for="({ logo, link }, i) in logos"
+            :key="i"
+            xs4
+          >
+            <a
+              :href="link"
+              target="_blank"
+            >
+              <v-img
+                contain
+                :src="imgPath(logo)"
+                height="100px"
+              >
+          <!-- :style="'margin: 0; width: ' + Math.floor((1/logos.length)*100*.9) + '%'" -->
+              </v-img>
+            </a>
+          </v-flex>
+        </v-layout>
+        <v-spacer class="my-12"></v-spacer>
+        <v-layout row wrap align-center justify-center>
+          <v-btn 
+            color="white" 
+            light
+            href="https://guamepscor.uog.edu/"
+            target="_blank"
+          >Read more</v-btn>
+        </v-layout>
+        <v-spacer class="my-12"></v-spacer>
+      </v-container>
+
       <Contact id="contact"></Contact>
       
       <!-- <div>Icons made by <a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
@@ -144,6 +191,20 @@ export default {
       {
         path: '#contact',
         title: ['','Contact'],
+      },
+    ],
+    logos: [
+      {
+        logo: "epscor_logo.png",
+        link: "https://guamepscor.uog.edu/",
+      },
+      {
+        logo: "nsf_logo.png",
+        link: "https://nsf.gov/",
+      },
+      {
+        logo: "uog_logo.png",
+        link: "https://www.uog.edu/",
       },
     ],
     cards: [
