@@ -5,7 +5,7 @@
             <h1 class="display-2 font-weight-light" dark style="color: #eaeaea">Get in touch</h1>
         </v-layout>
         <v-spacer class="py-2"></v-spacer>
-        <v-layout align-start justify="space-around" align="start" class="d-flex">
+        <v-layout align-start justify="space-around" align="start" class="d-flex pb-8">
             <v-flex xs2></v-flex>
             <v-flex xs4 mx-10 style="color: #eaeaea">                
                 <div class="d-flex align-top mb-5"
@@ -26,20 +26,41 @@
                         </v-layout>
                     </v-hover>
                 </div>
-                
+                <v-spacer class="py-12"></v-spacer>
+                <div 
+                    class="d-flex align-top ml-12"
+                    v-for="(c, i) in cites"
+                    :key="i"
+                >
+                    * {{c.type}} by 
+                    <a 
+                        class="d-flex pl-1" 
+                        style="color: white" 
+                        :href="c.link"
+                        target="_blank"
+                    >{{c.name}}</a>
+                </div>
             </v-flex>
-            <v-flex xs4 style="color: #eaeaea">
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita, repudiandae mollitia? Tenetur quos, tempora consequatur </p>
+            <!-- <v-flex xs1></v-flex> -->
+            <v-flex xs5 style="color: #eaeaea">
+                <p>
+                    We are always looking for feedback and are open to collaboration. 
+                    We also loan out our specimen in various preperations. 
+                    Leave us a message letting us know what you're interested in,
+                    and we'll get back to you with information on our loaning process.
+                </p>
                 <v-textarea
                     dark
                     name="name"
                     label="Message"
+                    class="pt-4"
                     multi-line
                     outlined
                 ></v-textarea>
                 <v-text-field
                     dark
                     label="E-mail"
+                    class="pt-0 pb-8"
                     name="email"
                 ></v-text-field>
                 <v-btn color="white" light px-8 style="padding: inherit">Send</v-btn>
@@ -68,6 +89,18 @@ export default {
             icon: "phone",
             text: "(671) 735-0301",
             link: "tel:16717350301"
+          }
+      ],
+      cites: [
+          {
+            name: "David Burdick",
+            link: "http://www.guamreeflife.com/",
+            type: "photos",
+          },
+          {
+            name: "Kiranshastry",
+            link: "https://www.flaticon.com/free-icon/file_709591?term=file%20search&page=2&position=27",
+            type: "file icon",
           }
       ]
   }),
