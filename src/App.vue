@@ -2,16 +2,18 @@
   <v-app>
     <v-app-bar app>
       <v-toolbar-title class="headline text-uppercase">
-        <span>GEC</span>
+        <a href="#home" style="color:black; text-decoration:none">
+          <span>GEC</span>
+        </a>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-sm-and-down">
         <v-btn
-          v-for="link in menu"
-          :key="link[1]"
-          :to="link[0]+link[1]"
+          v-for="{ path, title } in menu"
+          :key="title[1]"
+          :href="path"
           text
-        ><span class="font-weight-light">{{link[0]}}</span><span class="font-weight-light">{{link[1]}}</span> </v-btn>
+        ><span class="font-weight-light">{{title[0]}}</span><span class="font-weight-light">{{title[1]}}</span> </v-btn>
       </v-toolbar-items>
       <v-menu class="hidden-md-and-up">
         <template v-slot:activator="{on}">
@@ -19,21 +21,21 @@
         </template>
         <v-list>
             <v-list-item 
-              v-for="link in menu"
-              :key="link[1]"
-              @click="link[0]+link[1]"
+              v-for="{ path, title } in menu"
+              :key="title[1]"
+              @click="path"
             >
               <v-list-item-title class="font-weight-light">
-                {{(link[0] + link[1]).toUpperCase()}}
+                {{(title[0] + title[1]).toUpperCase()}}
               </v-list-item-title>
             </v-list-item>
           </v-list>
       </v-menu>
     </v-app-bar>
 
-    <v-content>
+    <v-content id="home">
       <HelloWorld/>
-      <v-container grid-list-xs text-center >
+      <v-container grid-list-xs text-center id="about">
         <v-spacer class="py-6"></v-spacer>
         <v-layout justify-center align-center>
           <h1 class="display-2 font-weight-light">Guam Ecosystem Collaboratorium</h1>
@@ -107,7 +109,7 @@
         <v-spacer class="my-12"></v-spacer>
       </v-container>
 
-      <Contact></Contact>
+      <Contact id="contact"></Contact>
       
       <!-- <div>Icons made by <a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
       <div>Icons made by <a href="https://www.flaticon.com/free-icon/file_709591?term=file%20search&page=2&position=27" title="Kiranshastry">Kiranshastry</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></div> -->
@@ -127,10 +129,22 @@ export default {
   },
   data: () => ({
     menu: [
-      ['GEC','Biorepository'],
-      ['GEC', 'RefLib'],
-      ['','About'],
-      ['','Contact']
+      {
+        path: 'gecbiorepository',
+        title: ['GEC','Biorepository'],
+      },
+      {
+        path: 'gecreflib',
+        title: ['GEC', 'RefLib'],
+      },
+      {
+        path: '#about',
+        title: ['','About'],
+      },
+      {
+        path: '#contact',
+        title: ['','Contact'],
+      },
     ],
     cards: [
       {
