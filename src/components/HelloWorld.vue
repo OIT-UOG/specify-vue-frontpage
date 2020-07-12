@@ -5,14 +5,14 @@
     :src="imgPath"
     :style="cssProps"
   >
-    <v-container grid-list-xs fluid>
+    <v-container grid-list-xs fluid :px-0=mobile>
       <v-layout
         align-center
         column
         justify-center
       >
         <v-flex xs12 text-center>
-          <h1 class="display-3 mb-4 text-capitalize that-font noselect" id="that-header">EXPLORE OUR WATERS</h1>
+          <h1 :class="(mobile? '' : 'mb-4 ') + 'display-3 text-capitalize that-font noselect'" id="that-header">EXPLORE OUR WATERS</h1>
         </v-flex>
         <v-spacer class="py-4"></v-spacer>
         <v-flex xs12 md6 px-auto>
@@ -21,8 +21,8 @@
             <v-card max-width="800" 
               :width="cardWidth" tile>
               <v-card-actions>
-                <v-layout column text-center py-3 px-5>
-                  <v-flex xs10 px-5>
+                <v-layout column text-center py-3 :px-5=!mobile :px-3=mobile>
+                  <v-flex xs10 :px-5=!mobile :px-2=mobile>
                     <v-text-field
                       v-model="content"
                       name="query"
@@ -35,15 +35,20 @@
                   </v-flex>
                   <v-row justify-center>
                     <v-col
-                      :cols=4
+                      :cols="mobile ? 12 : 4"
                       justify="center"
+                      :class="mobile? 'pa-0' : ''"
                     >
                       <v-flex justify-center>
-                      <p mt-5 class="headline font-weight-light" style="margin-bottom:0px !important; margin-top: 7px;">I want to search for: </p>
+                        <p 
+                          mt-5 
+                          :class="mobile? 'subheading' : 'headline' + ' font-weight-light'" 
+                          :style="'margin-bottom:0px !important; margin-top: ' + mobile? '0px; margin-bottom: 0px;' :'7px;'">I want to search for{{mobile? '' : ':'}} </p>
                       </v-flex>
                     </v-col>
                     <v-col
-                      :cols=8
+                      :cols="mobile ? 12 : 8"
+                     
                     >
                     <v-tabs
                     v-model="tab"
@@ -61,7 +66,7 @@
                     </v-col>
                     
                   </v-row>
-                  <v-flex xs5 pa-5>
+                  <v-flex xs5 :pa-5=!mobile :pt-3=mobile>
                   <v-btn color="rgb(88, 155, 237)" dark
                     :href="link"
                   >
@@ -193,8 +198,11 @@ export default {
     transIn: false
   }),
   computed: {
+    mobile() {
+      return this.$vuetify.breakpoint.name=='xs'
+    },
     cardWidth() {
-      return this.$vuetify.breakpoint.name=='xs' ? '300' : '800'
+      return this.mobile ? '100%' : '800'
     },
     link() {
       if (this.content.trim()) {
