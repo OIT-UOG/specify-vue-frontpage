@@ -111,49 +111,51 @@
         <v-spacer class="my-12"></v-spacer>
       </v-container>
 
-      <v-container grid-list-xs fluid class="tertiary">
-        <v-spacer class="my-12"></v-spacer>
-        <v-layout justify-center align-center mb-12>
-            <h1 class="display-2 font-weight-light" dark>About us</h1>
-        </v-layout>
-        <v-layout px-12 align-center text-center>
-          <p class="px-12 pb-6" >
-            The Guam Ecosystem Collaboratorium is part of a 5-year plan focused upon studying the effects of climate change on coral reefs, specifically on a genetic basis and 
-            is funded by the National Science Fountation's Established Program to Stimulate Competitive Research (EPSCoR) grant. 
-            It is the hope that bringing these resources to a wider audience for collaboration and awareness that we might spark further research
-            into these beautiful waters that we in Guam call home and that we as a global community deeply rely on.
-          </p>
-        </v-layout>
-        <v-layout justify-center align-center xs12>
-          <v-flex
-            v-for="({ logo, link }, i) in logos"
-            :key="i"
-            xs4
-          >
-            <a
-              :href="link"
-              target="_blank"
+      <v-container grid-list-xs fluid class="tertiary ma-0 pa-0">
+        <v-container grid-list-xs class="tertiary">
+          <v-spacer class="my-12"></v-spacer>
+          <v-layout justify-center align-center mb-12>
+              <h1 class="display-2 font-weight-light" dark>About us</h1>
+          </v-layout>
+          <v-layout px-12 align-center text-center>
+            <p class="pb-6" >
+              The Guam Ecosystem Collaboratorium is part of a 5-year plan focused upon studying the effects of climate change on coral reefs, specifically on a genetic basis and 
+              is funded by the National Science Fountation's Established Program to Stimulate Competitive Research (EPSCoR) grant. 
+              It is the hope that bringing these resources to a wider audience for collaboration and awareness that we might spark further research
+              into these beautiful waters that we in Guam call home and that we as a global community deeply rely on.
+            </p>
+          </v-layout>
+          <v-layout justify-center align-center xs12>
+            <v-flex
+              v-for="({ logo, link }, i) in logos"
+              :key="i"
+              xs4
             >
-              <v-img
-                contain
-                :src="imgPath(logo)"
-                height="100px"
+              <a
+                :href="link"
+                target="_blank"
               >
-          <!-- :style="'margin: 0; width: ' + Math.floor((1/logos.length)*100*.9) + '%'" -->
-              </v-img>
-            </a>
-          </v-flex>
-        </v-layout>
-        <v-spacer class="my-12"></v-spacer>
-        <v-layout row wrap align-center justify-center>
-          <v-btn 
-            color="white" 
-            light
-            href="https://guamepscor.uog.edu/"
-            target="_blank"
-          >Read more</v-btn>
-        </v-layout>
-        <v-spacer class="my-12"></v-spacer>
+                <v-img
+                  contain
+                  :src="imgPath(logo)"
+                  height="100px"
+                >
+            <!-- :style="'margin: 0; width: ' + Math.floor((1/logos.length)*100*.9) + '%'" -->
+                </v-img>
+              </a>
+            </v-flex>
+          </v-layout>
+          <v-spacer class="my-12"></v-spacer>
+          <v-layout row wrap align-center justify-center>
+            <v-btn
+              color="white"
+              light
+              href="https://guamepscor.uog.edu/"
+              target="_blank"
+            >Read more</v-btn>
+          </v-layout>
+          <v-spacer class="my-12"></v-spacer>
+        </v-container>
       </v-container>
 
       <Contact id="contact"></Contact>
@@ -250,6 +252,15 @@ export default {
 </script>
 
 <style>
+@media (min-width: 1904px) {
+  .container {
+    max-width: 1264px;
+  }
+  .container--fluid {
+    max-width: 100%;
+  }
+}
+
 .tertiary {
   background-color: rgb(55, 140, 244);
   color: white;
