@@ -172,8 +172,8 @@
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
-import Contact from './components/Contact';
+import HelloWorld from './components/HelloWorld.vue';
+import Contact from './components/Contact.vue';
 
 export default {
   name: 'App',
