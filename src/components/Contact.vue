@@ -59,12 +59,25 @@
                         outlined
                     ></v-textarea>
                     <v-text-field
+                        required
                         dark
                         label="E-mail"
                         class="pt-0 pb-8"
                         name="email"
+                        v-model="email"
                     ></v-text-field>
-                    <v-btn color="white" light px-8 style="padding: inherit">Send</v-btn>
+                    <v-layout justify="end" align="center" class="d-flex" style="align-items: center">
+                        <v-flex xs2 py-2>
+                            <v-btn color="white" light px-8style="padding: inherit">Send</v-btn>
+                        </v-flex>
+                        <v-flex xs11>
+                            <v-slide-y-transition>
+                                <!-- <v-layout v-show="email"> -->
+                                <p class="mb-0 pl-2" v-show="email">By submitting this form, you are agreeing to our <a href="" style="color: white;">Terms of Use</a> and <a href="" style="color: white;">Privacy Policy</a></p>
+                                <!-- </v-layout> -->
+                            </v-slide-y-transition>
+                        </v-flex>
+                    </v-layout>
                 </v-flex>
                 <v-flex xs1></v-flex>
             </v-layout>
@@ -104,7 +117,8 @@ export default {
             link: "https://www.flaticon.com/free-icon/file_709591?term=file%20search&page=2&position=27",
             type: "file icon",
           }
-      ]
+      ],
+      email: ""
   }),
   methods: {
       goto(link) {

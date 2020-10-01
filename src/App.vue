@@ -158,7 +158,12 @@
         </v-container>
       </v-container>
 
-      <Contact id="contact"></Contact>
+      <!-- <v-container grid-list-xs secondary fluid> -->
+        <Contact id="contact"></Contact>
+      <!-- </v-container> -->
+      <v-footer dark>
+        <div>&copy;</div>
+      </v-footer>
       
       <!-- <div>Icons made by <a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
       <div>Icons made by <a href="https://www.flaticon.com/free-icon/file_709591?term=file%20search&page=2&position=27" title="Kiranshastry">Kiranshastry</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></div> -->
