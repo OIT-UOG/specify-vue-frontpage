@@ -2,42 +2,82 @@
   <v-parallax
     dark
     class="pa-0 undo-image-transform"
-    src="../assets/fishb.jpg"
+    :src="imgPath"
+    :style="cssProps"
   >
-    <v-container grid-list-xs fluid>
+    <v-container grid-list-xs fluid :px-0=mobile>
       <v-layout
         align-center
         column
         justify-center
       >
         <v-flex xs12 text-center>
-          <h1 class="display-3 mb-4 text-capitalize that-font" id="that-header">EXPLORE OUR WATERS</h1>
-        <v-spacer class="py-4"></v-spacer>
+          <h1 :class="(mobile? '' : 'mb-4 ') + 'display-3 text-capitalize that-font noselect'" id="that-header">EXPLORE OUR WATERS</h1>
         </v-flex>
+        <v-spacer class="py-4"></v-spacer>
         <v-flex xs12 md6 px-auto>
-          <v-card max-width="800" 
-            :width="cardWidth" tile>
-            <v-card-actions>
-              <v-layout column text-center py-3 px-5>
-                <v-flex xs10 px-5>
-                  <v-text-field
-                    v-model="content"
-                    name="query"
-                    label="Search collections"
-                    id="id"
-                    @keydown.enter="redirect"
-                  ></v-text-field>
-                </v-flex>
-                <v-flex xs5 pa-5>
-                <v-btn color="rgb(95, 225, 255)" dark
-                  :href="link"
-                >
-                Search
-                </v-btn>
-                </v-flex>
-              </v-layout>
-            </v-card-actions>
-          </v-card>
+          <transition name="slide-fade-in">
+            <div v-if="transIn">
+            <v-card max-width="800" 
+              :width="cardWidth" tile>
+              <v-card-actions>
+                <v-layout column text-center py-3 :px-5=!mobile :px-3=mobile>
+                  <v-flex xs10 :px-5=!mobile :px-2=mobile>
+                    <v-text-field
+                      v-model="content"
+                      name="query"
+                      label="Search collections"
+                      id="id"
+                      @keydown.enter="redirect"
+                      append-icon="search"
+                      @click:append="redirect"
+                    ></v-text-field>
+                  </v-flex>
+                  <v-row justify-center>
+                    <v-col
+                      :cols="mobile ? 12 : 4"
+                      justify="center"
+                      :class="mobile? 'pa-0' : ''"
+                    >
+                      <v-flex justify-center>
+                        <p 
+                          mt-5 
+                          :class="mobile? 'subheading' : 'headline' + ' font-weight-light'" 
+                          :style="'margin-bottom:0px !important; margin-top: ' + mobile? '0px; margin-bottom: 0px;' :'7px;'">I want to search for{{mobile? '' : ':'}} </p>
+                      </v-flex>
+                    </v-col>
+                    <v-col
+                      :cols="mobile ? 12 : 8"
+                     
+                    >
+                    <v-tabs
+                    v-model="tab"
+                    >
+                      <v-tab-slider></v-tab-slider>
+                      <v-tab
+                        fixed-tabs
+                        style="width: 200%"
+                        v-for="i in tabs"
+                        :key="i"
+                      >
+                        {{i}}
+                      </v-tab>
+                    </v-tabs>
+                    </v-col>
+                    
+                  </v-row>
+                  <v-flex xs5 :pa-5=!mobile :pt-3=mobile>
+                  <v-btn color="rgb(88, 155, 237)" dark
+                    :href="link"
+                  >
+                  Search
+                  </v-btn>
+                  </v-flex>
+                </v-layout>
+              </v-card-actions>
+            </v-card>
+            </div>
+          </transition>
         </v-flex>
         <!-- <v-flex xs2>
           <v-select
@@ -140,12 +180,29 @@
 export default {
   data: () => ({
     content: "",
-    collections: ['fish', 'coral', 'diatoms'],
-    coll: 'fish'
+    collections: ['fishes', 'corals', 'diatoms'],
+    coll: 'fish',
+    img: 1,
+    imgs: 8,
+    img_y_transforms: [
+      '-10%',
+      '1.5%',
+      '-3%',
+      '-10%',
+      '-1%',
+      '-3%',
+      '-5%'
+    ],
+    tab: null,
+    tabs: ['specimen', 'references'],
+    transIn: false
   }),
   computed: {
+    mobile() {
+      return this.$vuetify.breakpoint.name=='xs'
+    },
     cardWidth() {
-      return this.$vuetify.breakpoint.name=='xs' ? '300' : '800'
+      return this.mobile ? '100%' : '800'
     },
     link() {
       if (this.content.trim()) {
@@ -153,12 +210,25 @@ export default {
       } else {
         return 'apps/viewer/#/'
       }
+    },
+    imgPath() {
+      let images = require.context('../assets/dbphotos/', false, /\.jpg$/);
+      return images('./' + this.img + ".jpg")
+    },
+    cssProps() {
+      return {
+        '--mv-img-y': this.img_y_transforms[this.img-1]
+      }
     }
   },
   methods: {
     redirect() {
       window.location.href = this.link
-    }
+    },
+  },
+  mounted() {
+    this.img = Math.ceil(Math.random()*this.imgs)
+    this.transIn = true;
   }
 };
 </script>
@@ -181,7 +251,34 @@ export default {
 }
 
 .undo-image-transform .v-parallax__image {
-  transform: translate(-50%,0) !important;
+  width: 200%;
+  min-width: 2400px !important;
+  transform-origin: 50% 50%;
+  transform: translate(calc(-50%), calc(40% + var(--mv-img-y))) scale(0.5) !important;
+}
+
+.search {
+  color: rgb(88, 155, 237)
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+
+.slide-fade-in-enter-active {
+  transition: all 1s ease 1s;
+  transform: translateY(0px);
+}
+.slide-fade-in-enter, .slide-fade-in-leave-to {
+  margin-bottom: -20%;
+  transform: translateY(50px);
+  opacity: 0;
 }
 </style>
 
