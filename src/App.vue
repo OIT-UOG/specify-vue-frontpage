@@ -184,7 +184,7 @@ export default {
   data: () => ({
     menu: [
       {
-        path: 'gecbiorepository',
+        path: 'apps/viewer/#/',
         title: ['GEC','Biorepository'],
       },
       {

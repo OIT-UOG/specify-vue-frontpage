@@ -206,7 +206,7 @@ export default {
     },
     link() {
       if (this.content.trim()) {
-        return 'apps/viewer/#/?q=' + this.content.trim()
+        return 'apps/viewer/#/?q='+ encodeURIComponent('[2,"' + this.content.trim() + '"]')
       } else {
         return 'apps/viewer/#/'
       }
