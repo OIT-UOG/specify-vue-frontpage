@@ -3,10 +3,10 @@
         <v-container secondary dark style="background-color: #80848f !important">
             <v-spacer class="py-6"></v-spacer>
             <v-layout justify-center align-center dark mb-12>
-                <h1 class="display-2 font-weight-light" dark style="color: #eaeaea">Get in touch</h1>
+                <h1 class="display-2 font-weight-light" dark style="color: #eaeaea">Get in touch {{tiny ? 'xs' : ''}}</h1>
             </v-layout>
             <v-spacer class="py-2"></v-spacer>
-            <v-layout align-start justify="space-around" align="start" class="d-flex pb-8">
+            <v-layout align-start justify="space-around" align="start" class="d-flex pb-8 flex-wrap">
                 <v-flex xs0 md1></v-flex>
                 <v-flex xs4 mx-10 style="color: #eaeaea">                
                     <div class="d-flex align-top mb-5"
@@ -28,7 +28,7 @@
                         </v-hover>
                     </div>
                     <v-spacer class="py-12"></v-spacer>
-                    <div 
+                    <!-- <div 
                         class="d-flex align-top ml-12"
                         v-for="(c, i) in cites"
                         :key="i"
@@ -40,7 +40,7 @@
                             :href="c.link"
                             target="_blank"
                         >{{c.name}}</a>
-                    </div>
+                    </div> -->
                 </v-flex>
                 <!-- <v-flex xs1></v-flex> -->
                 <v-flex xs5 style="color: #eaeaea">
@@ -73,7 +73,21 @@
                         <v-flex xs11>
                             <v-slide-y-transition>
                                 <!-- <v-layout v-show="email"> -->
-                                <p class="mb-0 pl-2" v-show="email">By submitting this form, you are agreeing to our <a href="" style="color: white;">Terms of Use</a> and <a href="" style="color: white;">Privacy Policy</a></p>
+                                <p class="mb-0 pl-2" v-show="email">
+                                    By submitting this form, you are agreeing to our 
+                                    <a href="javascript:void(0)" style="color: white;" @click="open('terms')">
+                                        Terms of Use
+                                    </a>
+                                    and 
+                                    <a href="javascript:void(0)" style="color: white;" @click="open('privacy')">
+                                        Privacy Policy
+                                    </a>
+                                    <info-modal
+                                        v-model="dialog"
+                                    >
+                                        <component :is="component"></component>
+                                    </info-modal>
+                                </p>
                                 <!-- </v-layout> -->
                             </v-slide-y-transition>
                         </v-flex>
@@ -87,24 +101,40 @@
 </template>
 
 <script>
+import InfoModal from '@/components/InfoModal.vue';
+import Privacy from '@/components/Privacy.vue';
+import Terms from '@/components/Terms.vue';
+
 export default {
+    components: {
+        InfoModal,
+        Privacy,
+        Terms,
+    },
   data: () => ({
+      dialog: false,
+      component: null,
       contacts: [
-          {
-            icon: "room",
-            text: "University of Guam<br>Unibetsedȧt Guahan<br>UOG Station<br>Mangilao, Guam 96923",
-            link: "https://goo.gl/maps/rJSUhBSQzLB1JHe69"
-          },
           {
             icon: "email",
             text: "GECrepository@uog.edu",
             link: "mailto:GECrepository@uog.edu"
           },
           {
+            icon: 'language',
+            text: 'https://guamepscor.uog.edu',
+            link: 'https://guamepscor.uog.edu/',
+          },
+          {
             icon: "phone",
             text: "(671) 735-0301",
             link: "tel:16717350301"
-          }
+          },
+          {
+            icon: "room",
+            text: "University of Guam<br>Unibetsedȧt Guahan<br>UOG Station<br>Mangilao, Guam 96923",
+            link: "https://goo.gl/maps/rJSUhBSQzLB1JHe69"
+          },
       ],
       cites: [
           {
@@ -120,7 +150,19 @@ export default {
       ],
       email: ""
   }),
+  computed: {
+      tiny() {
+          return this.$vuetify.breakpoint.name === 'xs';
+      },
+  },
   methods: {
+    open(item) {
+        this.component = {
+            'terms': Terms,
+            'privacy': Privacy,
+        }[item];
+        this.dialog = true;
+    },
       goto(link) {
           window.open(link, '_blank');
       }

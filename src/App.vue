@@ -60,51 +60,57 @@
         grid-list-xs
         class="pb-6"
       >
-        <v-layout text-center>
-            <v-flex
+        <v-row text-center>
+            <v-col
               v-for="(c,i) in cards"
               :key="i"
-              :class="c.size"
               pa-2
+              :cols="12"
+              :md="cardCols(c)"
             >
               <v-hover v-slot:default="{ hover }">
-                <v-card 
-                  outlined
-                  :elevation="hover ? 6:0"
+                <a
+                  :href="c.link"
+                  style="text-decoration: none;"
                 >
-                  <v-card-title class="justify-center display-1"
-                    style="margin-top: 12px; padding-bottom:0;"
+                  <v-card 
+                    outlined
+                    :elevation="hover ? 6:0"
                   >
-                    <b>{{c.title[0]}}</b>{{c.title[1]}}
-                  </v-card-title>
+                    <v-card-title class="justify-center display-1"
+                      style="margin-top: 12px; padding-bottom:0;"
+                    >
+                      <b>{{c.title[0]}}</b>{{c.title[1]}}
+                    </v-card-title>
 
-                  <v-container>
-                    <v-row justify="space-around">
-                      <v-col cols="auto"
-                        v-for="({title, img}, i) in c.imgs"
-                        :key="i"
-                      >
-                        <v-card flat>
-                          <v-img
-                            height="200"
-                            width="200"
-                            :src="imgPath(img)"
-                          >
-                          </v-img>
-                          <v-card-title class="justify-center">
-                            {{title}}
-                          </v-card-title>
-                        </v-card>
-                        
+                    <v-container>
+                      <v-row justify="space-around">
+                        <v-col cols="auto"
+                          v-for="({title, img, link}, i) in c.imgs"
+                          :key="i"
+                        >
+                          <v-card flat :href="link" :ripple="false" class="no-focus hue-hover">
+                            <v-img
+                              height="200"
+                              width="200"
+                              :src="imgPath(img)"
+                            >
+                            </v-img>
+                            <v-card-title class="justify-center no-opacity-change">
+                              {{title}}
+                            </v-card-title>
+                          </v-card>
+                          
 
-                      </v-col>
-                    </v-row>
-                  </v-container>
+                        </v-col>
+                      </v-row>
+                    </v-container>
 
-                </v-card>
+                  </v-card>
+                </a>
               </v-hover>
-            </v-flex>
-        </v-layout>
+            </v-col>
+        </v-row>
       </v-container>
 
       <v-container>
@@ -162,7 +168,71 @@
         <Contact id="contact"></Contact>
       <!-- </v-container> -->
       <v-footer dark>
-        <div>&copy;</div>
+        <v-container class="full-width py-0">
+          <v-row justify="center">
+            <v-col>
+              <div class="d-flex flex-column align-center">
+                <a
+                  :href="epscorLogo.link"
+                  target="_blank"
+                >
+                  <v-img height="60px" width="200px" contain :src="imgPath(epscorLogo.logo)"></v-img>
+                </a>
+              </div>
+            </v-col>
+            <v-col 
+              align-self="center" 
+              class="d-flex text-center justify-center flex-wrap"
+              cols="12"
+              md="6"
+            >
+              <div 
+                v-for="(f, i) in footerText"
+                :key="i"
+                style="white-space: nowrap;"
+              >
+                {{ f.text }}
+                <info-modal
+                  v-if="f.link && f.link.component"
+                  v-model="f.link.open"
+                >
+                  <template v-slot:activator="{ on }">
+                    <a style="color: white" href="javascript:void(0)" v-on="on">{{ f.link.text }}</a>
+                  </template>
+
+                  <template v-slot:title v-if="f.link.title">
+                    {{ f.link.title }}
+                  </template>
+                  <component :is="f.link.component"></component>
+                </info-modal>
+                <a
+                  v-else-if="f.link"
+                  style="color: white"
+                  :href="f.link.link"
+                  target="_blank"
+                >{{ f.link.text }}</a>
+                <!-- <div v-if="br"></div> -->
+                <span v-if="i !== footerText.length - 1" class="mx-2">|</span>
+              </div>
+            </v-col>
+            <v-col>
+              <div class="d-flex justify-center">
+                <v-btn
+                  v-for="({ name, link }, i) in socials"
+                  :key="i"
+                  :href="link"
+                  target="_blank"
+                  fab
+                  small
+                  color="white"
+                  class="ma-3"
+                >
+                  <v-icon color="#212121">mdi-{{ name }}</v-icon>
+                </v-btn>
+              </div>
+            </v-col>
+          </v-row>
+        </v-container>
       </v-footer>
       
       <!-- <div>Icons made by <a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
@@ -174,12 +244,18 @@
 <script>
 import HelloWorld from './components/HelloWorld.vue';
 import Contact from './components/Contact.vue';
+import InfoModal from './components/InfoModal.vue';
+import Privacy from './components/Privacy.vue';
+import Terms from './components/Terms.vue';
 
 export default {
   name: 'App',
   components: {
     HelloWorld,
     Contact,
+    InfoModal,
+    Privacy,
+    Terms,
   },
   data: () => ({
     menu: [
@@ -218,25 +294,30 @@ export default {
       {
         title: ['GEC', 'Biorepository'],
         desc: null,
+        link: 'apps/viewer/#/',
         size: 'xs9',
         imgs: [
           {
             title: 'Fishes',
-            img: 'fish.png'
+            img: 'fish.png',
+            link: 'apps/viewer/#/?colls=fish',
           },
           {
             title: 'Corals',
-            img: 'coral.png'
+            img: 'coral.png',
+            link: 'apps/viewer/#/?colls=coral',
           },
           {
             title: 'Diatoms',
-            img: 'diatom.png'
+            img: 'diatom.png',
+            link: 'apps/viewer/#/?colls=diatom',
           }
         ]
       },
       {
         title: ['GEC', 'RefLib'],
         desc: null,
+        link: '',
         size: 'xs3',
         imgs: [
           {
@@ -244,13 +325,71 @@ export default {
             img: 'search.png'
           }
         ]
+      },
+    ],
+    cites: [
+      {
+        name: "David Burdick",
+        link: "http://www.guamreeflife.com/",
+        type: "photos",
+      },
+      {
+        name: "Kiranshastry",
+        link: "https://www.flaticon.com/free-icon/file_709591?term=file%20search&page=2&position=27",
+        type: "file icon",
       }
-    ]
+    ],
+    socials: [
+      {
+        name: 'twitter',
+        link: 'https://twitter.com/guamepscor',
+      },
+      {
+        name: 'facebook',
+        link: 'https://www.facebook.com/guamepscor/',
+      },
+      {
+        name: 'instagram',
+        link: 'https://www.instagram.com/guamepscor/',
+      }
+    ],
+    footerText: [
+      { text: "Copyright © 2020 RCUOG", },
+      { text: "photos by ", link: {
+          text: "David Burdick",
+          link: "http://www.guamreeflife.com/",
+        }
+      },
+      { text: "file icon by ", link: {
+          text: "Kiranshastry",
+          link: "https://www.flaticon.com/free-icon/file_709591?term=file%20search&page=2&position=27",
+        },
+      },
+      { link: {
+        text: "Terms of Use",
+        component: Terms,
+        open: false,
+      }},
+      { link: {
+        text: "Privacy Policy",
+        component: Privacy,
+        open: false,
+      }},
+    ],
   }),
+  computed: {
+    epscorLogo() {
+      return this.logos[0];
+    },
+  },
   methods: {
     imgPath(img_name) {
       let images = require.context('./assets/', false, /\.png$/);
       return images('./' + img_name);
+    },
+    cardCols(card) {
+      let total = this.cards.reduce((prev, curr) => { return prev + curr.imgs.length }, 0);
+      return 12/total * card.imgs.length;
     },
   }
 };
@@ -266,8 +405,28 @@ export default {
   }
 }
 
+.full-width {
+  max-width: 100%;
+}
+
 .tertiary {
   background-color: rgb(55, 140, 244);
   color: white;
+}
+
+.no-focus:hover:before {
+  opacity: 0;
+}
+
+.hue-hover {
+  transition-property: all;
+  filter: saturate(1) hue-rotate(0deg) opacity(1);
+  user-select: none;
+}
+
+.hue-hover:hover {
+  filter: saturate(3.5) hue-rotate(15deg) opacity(0.9);
+  /* adjusted primary color for filter */
+  color: #3f6679;
 }
 </style>

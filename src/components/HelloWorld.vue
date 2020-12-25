@@ -53,7 +53,7 @@
                     <v-tabs
                     v-model="tab"
                     >
-                      <v-tab-slider></v-tab-slider>
+                      <div></div>
                       <v-tab
                         fixed-tabs
                         style="width: 200%"
@@ -202,7 +202,7 @@ export default {
       return this.$vuetify.breakpoint.name=='xs'
     },
     cardWidth() {
-      return this.mobile ? '100%' : '800'
+      return this.mobile ? '100%' : this.$vuetify.breakpoint.mdAndUp ? '800' : '100%';
     },
     link() {
       if (this.content.trim()) {
