@@ -396,6 +396,11 @@ export default {
 </script>
 
 <style>
+html, body {
+    width: 100%;
+    overflow-x: hidden;
+}
+
 @media (min-width: 1904px) {
   .container {
     max-width: 1264px;

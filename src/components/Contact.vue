@@ -1,17 +1,20 @@
 <template>
     <v-container secondary fluid dark style="background-color: #80848f !important" ma-0 pa-0>
         <v-container secondary dark style="background-color: #80848f !important">
-            <v-spacer class="py-6"></v-spacer>
-            <v-layout justify-center align-center dark mb-12>
-                <h1 class="display-2 font-weight-light" dark style="color: #eaeaea">Get in touch {{tiny ? 'xs' : ''}}</h1>
-            </v-layout>
-            <v-spacer class="py-2"></v-spacer>
-            <v-layout align-start justify="space-around" align="start" class="d-flex pb-8 flex-wrap">
-                <v-flex xs0 md1></v-flex>
-                <v-flex xs4 mx-10 style="color: #eaeaea">                
+            <v-spacer class="py-4"></v-spacer>
+            <v-row justify-center align-center dark class="mb-9">
+                <v-col cols="12" justify="center">
+                    <h1 class="display-2 font-weight-light text-center" dark style="color: #eaeaea">Get in touch</h1>
+                </v-col>
+            </v-row>
+            <v-spacer class="py-1"></v-spacer>
+            <v-row align-start justify="space-around" align="start" class="d-flex pb-8 flex-wrap" :style="$vuetify.breakpoint.width >= 732 ? '' : 'overflow: srcoll;'">
+                <v-col cols="1" v-if="$vuetify.breakpoint.mdAndUp"></v-col>
+                <v-col cols="4" class="mx-10" style="color: #eaeaea; width: fit-content; box-sizing: border-box; display: inline-table">
                     <div class="d-flex align-top mb-5"
                         v-for="(c, i) in contacts"
                         :key="i"
+                        style="width: fit-content"
                     >
                         <v-hover class="contact-btn">
                             <v-layout
@@ -27,7 +30,8 @@
                             </v-layout>
                         </v-hover>
                     </div>
-                    <v-spacer class="py-12"></v-spacer>
+                    <v-spacer :class="$vuetify.breakpoint.width >= 732 ? 'py-12' : 'py-2'"></v-spacer>
+                    <hr v-if="$vuetify.breakpoint.width < 732" class="mb-7 mt-4">
                     <!-- <div 
                         class="d-flex align-top ml-12"
                         v-for="(c, i) in cites"
@@ -41,9 +45,9 @@
                             target="_blank"
                         >{{c.name}}</a>
                     </div> -->
-                </v-flex>
-                <!-- <v-flex xs1></v-flex> -->
-                <v-flex xs5 style="color: #eaeaea">
+                </v-col>
+                <v-col :cols="$vuetify.breakpoint.width >= 732 ? 5 : 10" style="color: #eaeaea" :class="$vuetify.breakpoint.width >= 732 ? '' : ' mx-10'">
+                    <!-- <v-flex xs1></v-flex> -->
                     <p>
                         We are always looking for feedback and are open to collaboration. 
                         We also loan out our specimen in various preperations. 
@@ -92,9 +96,9 @@
                             </v-slide-y-transition>
                         </v-flex>
                     </v-layout>
-                </v-flex>
-                <v-flex xs1></v-flex>
-            </v-layout>
+                </v-col>
+                <v-col cols="1" v-if="$vuetify.breakpoint.width >= 732"></v-col>
+            </v-row>
         
         </v-container>
     </v-container>
