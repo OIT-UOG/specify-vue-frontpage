@@ -23,7 +23,7 @@
             <v-list-item 
               v-for="{ path, title } in menu"
               :key="title[1]"
-              @click="path"
+              :href="path"
             >
               <v-list-item-title class="font-weight-light">
                 {{(title[0] + title[1]).toUpperCase()}}
