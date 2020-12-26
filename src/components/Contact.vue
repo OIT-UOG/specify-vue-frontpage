@@ -10,25 +10,27 @@
             <v-spacer class="py-1"></v-spacer>
             <v-row align-start justify="space-around" align="start" class="d-flex pb-8 flex-wrap" :style="$vuetify.breakpoint.width >= 732 ? '' : 'overflow: srcoll;'">
                 <v-col cols="1" v-if="$vuetify.breakpoint.mdAndUp"></v-col>
-                <v-col cols="4" class="mx-10" style="color: #eaeaea; width: fit-content; box-sizing: border-box; display: inline-table">
-                    <div class="d-flex align-top mb-5"
-                        v-for="(c, i) in contacts"
-                        :key="i"
-                        style="width: fit-content"
-                    >
-                        <v-hover class="contact-btn">
-                            <v-layout
-                                slot-scope="{ hover }" width="auto"
-                                @click="goto(c.link)"
-                            >
-                                <div class="mx-4 contact-icon">
-                                    <v-icon
-                                        :dark="hover"
-                                    >{{c.icon}}</v-icon>
-                                </div>
-                                <a class="subtitle-1 contact-info white--text" v-html="c.text" />
-                            </v-layout>
-                        </v-hover>
+                <v-col :cols="$vuetify.breakpoint.width >= 732? 4 : 10" class="mx-10" style="color: #eaeaea; width: fit-content; box-sizing: border-box; display: inline-table">
+                    <div :style="$vuetify.breakpoint.width >= 732? '' : 'margin: 0 auto; width: fit-content;'">
+                        <div class="align-top mb-5"
+                            v-for="(c, i) in contacts"
+                            :key="i"
+                            style="width: fit-content"
+                        >
+                            <v-hover class="contact-btn">
+                                <v-layout
+                                    slot-scope="{ hover }" width="auto"
+                                    @click="goto(c.link)"
+                                >
+                                    <div class="mx-4 contact-icon">
+                                        <v-icon
+                                            :dark="hover"
+                                        >{{c.icon}}</v-icon>
+                                    </div>
+                                    <a class="subtitle-1 contact-info white--text" v-html="c.text" />
+                                </v-layout>
+                            </v-hover>
+                        </div>
                     </div>
                     <v-spacer :class="$vuetify.breakpoint.width >= 732 ? 'py-12' : 'py-2'"></v-spacer>
                     <hr v-if="$vuetify.breakpoint.width < 732" class="mb-7 mt-4">
